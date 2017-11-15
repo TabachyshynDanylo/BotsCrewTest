@@ -25,6 +25,7 @@ public class Library {
 	public static final String SHOW = "SELECT * FROM books";
 	public static final String SHOW_BY_NAME = "SELECT * FROM books WHERE bookname LIKE ? ";
 	private static Connection connection;
+	Scanner sc = new Scanner(System.in);
 
 	public void createConnection() throws SQLException {
 		connection = DriverManager.getConnection(CONNECTION_URL, USER, PASSWORD);
@@ -34,11 +35,14 @@ public class Library {
 		statement.execute(CREATE_TABLE_BOOKS);
 		statement.close();
 	}
-public void endConnection() throws SQLException {
-	connection.close();
-}
+
+	public void endConnection() throws SQLException {
+		connection.close();
+		sc.close();
+	}
+
 	public void addBook() throws SQLException {
-		Scanner sc = new Scanner(System.in);
+
 		System.out.println("введіть ПІБ автора");
 		String authorsLastname = sc.next();
 		System.out.println("введіть назву книги");
@@ -48,13 +52,13 @@ public void endConnection() throws SQLException {
 		addStatement.setString(1, authorsLastname);
 		addStatement.setString(2, bookname);
 		addStatement.executeUpdate();
-		
+
 		System.out.println("запис успішно добавлено!");
 		addStatement.close();
 	}
 
 	public void deleteBook() throws SQLException {
-		Scanner sc = new Scanner(System.in);
+
 		System.out.println("Введіть назву книги по якій видалити запис!");
 		PreparedStatement deleteStatementByName = connection.prepareStatement(DELETE_BY_NAME);
 		PreparedStatement deleteStatementById = connection.prepareStatement(DELETE_BY_ID);
@@ -92,18 +96,18 @@ public void endConnection() throws SQLException {
 
 			deleteStatementById.executeUpdate();
 			System.out.println("Книгу з id: " + tempid + " успішно видалено!");
+		} else if (i == 0) {
+			System.out.println("Такої книжечки не існує!");
 		} else {
 
 			deleteStatementByName.setString(1, booksname1);
 			deleteStatementByName.executeUpdate();
+			System.out.println("Книгу успішно видалено");
 		}
 
-		System.out.println("Книгу успішно видалено");
-		sc.close();
 	}
 
 	public void updateBook() throws SQLException {
-		Scanner sc = new Scanner(System.in);
 
 		PreparedStatement updateStatementByName = connection.prepareStatement(UPDATE_BY_NAME);
 		PreparedStatement updateStatementById = connection.prepareStatement(UPDATE_BY_ID);
@@ -145,6 +149,8 @@ public void endConnection() throws SQLException {
 			updateStatementById.setInt(2, tempid);
 			updateStatementById.executeUpdate();
 			System.out.println("Запис з id: " + tempid + " успішно оновлено!");
+		} else if (i == 0) {
+			System.out.println("Такої книги не існує!");
 		} else {
 
 			System.out.println("введіть нову назву книги");
@@ -153,12 +159,12 @@ public void endConnection() throws SQLException {
 			updateStatementByName.setString(1, booksname2);
 			updateStatementByName.setString(2, booksname1);
 			updateStatementByName.executeUpdate();
+			System.out.println("запис успішно змінено");
 		}
 
-		System.out.println("запис успішно змінено");
-		 updateStatementByName.close();
-		 updateStatementById.close();
-		sc.close();
+		
+		updateStatementByName.close();
+		updateStatementById.close();
 	}
 
 	public void showBook() throws SQLException {
@@ -169,7 +175,7 @@ public void endConnection() throws SQLException {
 			System.out.println("\n id:" + records.getInt(1) + " authorsLastname: " + records.getString(2)
 					+ " booksname: " + records.getString(3) + "\n");
 		}
-		 selectStatement.close();
+		selectStatement.close();
 
 	}
 }
