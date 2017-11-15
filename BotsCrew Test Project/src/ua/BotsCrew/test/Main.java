@@ -12,9 +12,10 @@ public class Main {
 			libraryUser.createConnection();
 
 			while (true) {
-				System.out.println(" введіть 1 щоб добавити нову книгу," + "\n 2  щоб видалити книгу"
-						+ "\n 3 для того щоб обновити запис про книгу."
-						+ "\n 4 для того щоб побачити поточні книги в таблиці");
+				System.out.println(" Enter 1 to add new book." 
+						+ "\n Enter 2 to delete book." 
+						+ "\n Enter 3 to upgrade name of book." 
+						+ "\n Enter 4 to show all books in database.");
 
 				String sw = sc.next();
 				switch (sw) {
@@ -36,7 +37,7 @@ public class Main {
 					break;
 				}
 				default:
-					System.out.println("невірна команда");
+					System.out.println("Wrong number. Please try aganin.");
 					break;
 				}
 			}

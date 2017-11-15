@@ -43,27 +43,27 @@ public class Library {
 
 	public void addBook() throws SQLException {
 
-		System.out.println("введіть ПІБ автора");
-		String authorsLastname = sc.next();
-		System.out.println("введіть назву книги");
-		String bookname = sc.next();
+		System.out.println("Enter author's name:");
+		String authorsLastname = sc.nextLine();
+		System.out.println("Enter book name:");
+		String bookname = sc.nextLine();
 
 		PreparedStatement addStatement = connection.prepareStatement(ADD);
 		addStatement.setString(1, authorsLastname);
 		addStatement.setString(2, bookname);
 		addStatement.executeUpdate();
 
-		System.out.println("запис успішно добавлено!");
+		System.out.println("Book has been successfully added!");
 		addStatement.close();
 	}
 
-	public void deleteBook() throws SQLException {
+	public void deleteBook() throws SQLException { 
 
-		System.out.println("Введіть назву книги по якій видалити запис!");
+		System.out.println("Enter book's name which you want to delete!");
 		PreparedStatement deleteStatementByName = connection.prepareStatement(DELETE_BY_NAME);
 		PreparedStatement deleteStatementById = connection.prepareStatement(DELETE_BY_ID);
 		PreparedStatement checkStatement = connection.prepareStatement(SHOW_BY_NAME);
-		String booksname1 = sc.next();
+		String booksname1 = sc.nextLine();
 		checkStatement.setString(1, booksname1);
 		ResultSet records = checkStatement.executeQuery();
 		int i = 0;
@@ -73,20 +73,20 @@ public class Library {
 			list.add(records.getInt(1));
 			i++;
 
-			temp += ("\n id:" + records.getInt(1) + " authorsLastname: " + records.getString(2) + " booksname: "
+			temp += ("\n id:" + records.getInt(1) + " authors lastname: " + records.getString(2) + " books name: "
 					+ records.getString(3) + "\n");
 
 		}
 		if (i > 1) {
-			System.out.println(
-					"Існує декілька книжок з такою назвою. Яку ви хочете вибрати?(Напишіть номер id книги)" + temp);
+			System.out.println( 
+					"There is few books with this name. Which do you want to choose?(Enter id number of the book)." + temp);
 			checkStatement.close();
 			int tempid;
 			while (true) {
 				tempid = sc.nextInt();
 
 				if (!list.contains(tempid)) {
-					System.out.println("Такого Id немає!Введіть ще раз номер.");
+					System.out.println("There is no such id!Please enter the number of id again.");
 					continue;
 				} else
 					break;
@@ -95,14 +95,14 @@ public class Library {
 			deleteStatementById.setInt(1, tempid);
 
 			deleteStatementById.executeUpdate();
-			System.out.println("Книгу з id: " + tempid + " успішно видалено!");
+			System.out.println("Book with id: " + tempid + " has been successfully deleted!");
 		} else if (i == 0) {
-			System.out.println("Такої книжечки не існує!");
+			System.out.println("There is no book with this name! Please try again.");
 		} else {
 
 			deleteStatementByName.setString(1, booksname1);
 			deleteStatementByName.executeUpdate();
-			System.out.println("Книгу успішно видалено");
+			System.out.println("Book has been successfully deleted.");
 		}
 
 	}
@@ -112,8 +112,8 @@ public class Library {
 		PreparedStatement updateStatementByName = connection.prepareStatement(UPDATE_BY_NAME);
 		PreparedStatement updateStatementById = connection.prepareStatement(UPDATE_BY_ID);
 		PreparedStatement checkStatement = connection.prepareStatement(SHOW_BY_NAME);
-		System.out.println("по якій назві книги робити заміну?");
-		String booksname1 = sc.next();
+		System.out.println("Enter book name to change it.");
+		String booksname1 = sc.nextLine();
 		checkStatement.setString(1, booksname1);
 		ResultSet records = checkStatement.executeQuery();
 		int i = 0;
@@ -129,37 +129,37 @@ public class Library {
 		}
 		if (i > 1) {
 			System.out.println(
-					"Існує декілька книжок з такою назвою. Яку ви хочете вибрати?(Напишіть номер id книги)" + temp);
+					"There is few books with this name. Which do you want to choose?(Enter id number of the book)" + temp);
 			checkStatement.close();
 			int tempid;
 			while (true) {
 				tempid = sc.nextInt();
 
 				if (!list.contains(tempid)) {
-					System.out.println("Такого Id немає!Введіть ще раз номер.");
+					System.out.println("There is no such id!Please enter the number of id again.");
 					continue;
 				} else
 					break;
 			}
 
 			updateStatementById.setInt(1, tempid);
-			System.out.println("введіть нову назву книги");
-			String booksname2 = sc.next();
+			System.out.println("Please enter new book name.");
+			String booksname2 = sc.nextLine();
 			updateStatementById.setString(1, booksname2);
 			updateStatementById.setInt(2, tempid);
-			updateStatementById.executeUpdate();
-			System.out.println("Запис з id: " + tempid + " успішно оновлено!");
+			updateStatementById.executeUpdate();  
+			System.out.println("Book with this id: " + tempid + " has been successfully upgrated!");
 		} else if (i == 0) {
-			System.out.println("Такої книги не існує!");
+			System.out.println("There is no book with this name! Please try again.");
 		} else {
 
-			System.out.println("введіть нову назву книги");
-			String booksname2 = sc.next();
+			System.out.println("Please enter new book name.");
+			String booksname2 = sc.nextLine();
 
 			updateStatementByName.setString(1, booksname2);
 			updateStatementByName.setString(2, booksname1);
 			updateStatementByName.executeUpdate();
-			System.out.println("запис успішно змінено");
+			System.out.println("Book has been successfully upgrated.");
 		}
 
 		
