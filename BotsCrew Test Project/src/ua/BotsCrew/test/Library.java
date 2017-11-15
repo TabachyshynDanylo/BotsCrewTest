@@ -46,7 +46,7 @@ public class Library {
 		System.out.println("Enter author's name:");
 		String authorsLastname = sc.nextLine();
 		System.out.println("Enter book name:");
-		String bookname = sc.nextLine();
+		String bookname = sc.next();
 
 		PreparedStatement addStatement = connection.prepareStatement(ADD);
 		addStatement.setString(1, authorsLastname);
@@ -63,7 +63,7 @@ public class Library {
 		PreparedStatement deleteStatementByName = connection.prepareStatement(DELETE_BY_NAME);
 		PreparedStatement deleteStatementById = connection.prepareStatement(DELETE_BY_ID);
 		PreparedStatement checkStatement = connection.prepareStatement(SHOW_BY_NAME);
-		String booksname1 = sc.nextLine();
+		String booksname1 = sc.next();
 		checkStatement.setString(1, booksname1);
 		ResultSet records = checkStatement.executeQuery();
 		int i = 0;
@@ -113,7 +113,7 @@ public class Library {
 		PreparedStatement updateStatementById = connection.prepareStatement(UPDATE_BY_ID);
 		PreparedStatement checkStatement = connection.prepareStatement(SHOW_BY_NAME);
 		System.out.println("Enter book name to change it.");
-		String booksname1 = sc.nextLine();
+		String booksname1 = sc.next();
 		checkStatement.setString(1, booksname1);
 		ResultSet records = checkStatement.executeQuery();
 		int i = 0;
@@ -144,7 +144,7 @@ public class Library {
 
 			updateStatementById.setInt(1, tempid);
 			System.out.println("Please enter new book name.");
-			String booksname2 = sc.nextLine();
+			String booksname2 = sc.next();
 			updateStatementById.setString(1, booksname2);
 			updateStatementById.setInt(2, tempid);
 			updateStatementById.executeUpdate();  
@@ -154,7 +154,7 @@ public class Library {
 		} else {
 
 			System.out.println("Please enter new book name.");
-			String booksname2 = sc.nextLine();
+			String booksname2 = sc.next();
 
 			updateStatementByName.setString(1, booksname2);
 			updateStatementByName.setString(2, booksname1);
